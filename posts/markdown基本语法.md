@@ -56,12 +56,10 @@ $$
 ---
 
 
-[百度](baidu.com "一个搜索引擎")
 
 请参考[标题1](#标题一)
 
-ULR:
-http://www.baidu.com
+
 
 图片：
 <img src="/love.jpg">
