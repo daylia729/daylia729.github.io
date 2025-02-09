@@ -3,7 +3,7 @@ title: markdown学习
 description: markdown基础语法的学习
 date: 2025-02-08
 tags:
-  -markdown
+  - markdown
 ---
 # 标题一
 ## 标题二
