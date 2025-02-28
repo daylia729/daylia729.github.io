@@ -3,9 +3,9 @@ title: 一些好看的按钮CSS
 description: css
 date: 2025-02-26
 tags:
-  -CSS
+  - css
 ---
-##悬停效果
+## 悬停效果
 ```CSS
 <style>
     .SUBSCRIBE-button{
