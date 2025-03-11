@@ -1,9 +1,9 @@
 ---
-title:vue学习
-description: vue3
+title: vue3学习
+description: vue3学习
 date: 2025-03-11
 tags:
-  - vue3
+  - vue
 ---
 # 1. Vue3简介
 - 2020年9月18日，`Vue.js`发布版`3.0`版本，代号：`One Piece`（n
