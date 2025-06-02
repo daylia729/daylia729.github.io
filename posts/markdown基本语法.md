@@ -28,7 +28,7 @@ tags:
 
 代码块:
 ```c
-#include <stdio.h>
+#include <stdio.h> 
 int main(){
     printf("hello world");
     return 0;
