@@ -8,4 +8,4 @@ tags:
 
 
 用html和css还原YouTube的一个页面，后面的工具提示啥的没写，尽量还原吧。
-<img src="/code.png">
+<img src="../public/code.png">
