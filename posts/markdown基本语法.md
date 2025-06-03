@@ -59,7 +59,7 @@ $$
 
 
 图片：
-<img src="/love.jpg">
+<img src="../public/love.jpg">
 
 *斜体*,**加粗**,`printf()`,<u>下划线</u>,:smile:,$\theta=x^2$
 H<sub>2</sub>O,X<sup>2</sup>,<mark>这是一段高亮文字</mark>
