@@ -52,7 +52,8 @@ $$
 softmax作用于o向量，将o向量归一化，每个元素非负，和为1
 $$
 \hat{y}_i = \frac{\exp(o_i)}{\sum_k \exp(o_k)}
-$$(第i个类别的预测概率)
+$$
+(第i个类别的预测概率)
 分子把原始输出映射成正数，同时也会放大差距；分母是求和，归一化，让它成为概率
 * 概率 $y$ 和 $\hat{y}$ 的区别作为损失
 #### Soft和交叉熵损失
@@ -62,19 +63,25 @@ H(\mathbf{p}, \mathbf{q}) = \sum_{i} - p_i \log(q_i)
 $$
 p是真实，q是预测，pi只有0或1；若pi=1，但是qi很小，则损失就大，模型就要优化
 * 将它作为损失
+
 $$
 l(\mathbf{y}, \hat{\mathbf{y}}) = -\sum_{i} y_i \log \hat{y}_i = -\log \hat{y}_y
 $$
+
 * 其梯度是真实概率和预测概率的区别
 推导：
+
+
 <img src="/public/softmax1.jpg">
 
 
 $$
 \partial_{o_i} l(\mathbf{y}, \hat{\mathbf{y}}) = \text{softmax}(\mathbf{o})_i - y_i
 $$
+
 #### 损失函数 
 * L2Loss
+
 $$
 l(y,y') = \frac{1}{2}(y-y')^2
 $$
@@ -83,6 +90,7 @@ $$
 
 可导的光滑函数，但模型会更关注较大误差对其惩罚力度更大，对异常值敏感，影响模型训练和性能
 * L1Loss
+
 $$
 l(y,y') = |y-y'|
 $$
@@ -91,6 +99,7 @@ $$
 
 对异常值更鲁棒，对所有误差的处理是同等力度的，但在y-y'=0处不可导，导致训练过程不够平滑
 * Huber'sRobust Loss
+
 $$
 l(y, y') = 
 \begin{cases} 
