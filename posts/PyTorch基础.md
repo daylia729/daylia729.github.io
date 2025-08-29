@@ -3,7 +3,7 @@ title: Pytorch基础
 description: Pytorch基础
 date: 2025-08-27
 tags:
-  - 深度学习
+  - Pytorch
 ---
 
 ### 环境配置
