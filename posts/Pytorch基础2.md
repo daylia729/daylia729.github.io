@@ -160,3 +160,42 @@ torch.Size([64, 10])
 ```
 
 <img src="/public/pytorch基础24.jpg">
+
+### 损失函数以及反向传播
+
+Softmax回归里讲过L1、L2（MSE）以及交叉熵损失函数
+
+反向传播看鱼书
+
+### 优化器Optimizer
+
+https://docs.pytorch.org/docs/stable/optim.html
+
+### 现有模型的修改
+```
+import torchvision.models
+from torch import nn
+
+vgg16 = torchvision.models.vgg16(pretrained=True)
+
+print(vgg16)
+
+train_data = torchvision.datasets.CIFAR10("./dataset",train=True,transform=torchvision.transforms.ToTensor(),download=False)
+
+vgg16.classifier.add_module('add_linear',nn.Linear(1000,10))
+
+print(vgg16)
+```
+
+### 模型保存与读取
+```
+vgg16 = torchvision.models.vgg16(pretrained=False)
+#保存方式1 模型结构+模型参数
+torch.save(vgg16,"vgg16_method1.pth")
+# 保存方式2 模型参数(推荐)
+torch.save(vgg16.state_dict(),"vgg16_method2.pth")
+
+vgg16 = torchvision.models.vgg16(pretrained=False)
+vgg16.load_state_dict(torch.load("vgg16_method2.pth"))
+print(vgg16)
+```
