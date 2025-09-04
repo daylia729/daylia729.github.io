@@ -7,6 +7,7 @@ tags:
 ---
 
 ### 大模型优化技术
+* 大模型构建一般分为三个阶段：预训练(Pretrained),有监督微调(STF),基于人类反馈的强化学习(RLHF)
 #### SFT - （Supervised Fine-Tuning）有监督微调
 * 使用高质量的人工标注的问答数据（输入-输出对），以传统的监督学习方式对预训练好的基座模型进行微调，也就是提高大模型对一个企业专有信息的理解，增强模型在特定领域的知识。
 🌟会更新模型权重
@@ -106,3 +107,4 @@ https://blog.csdn.net/weixin_35977125/article/details/147888608
 --double_quantization \          # 对量化常数进行二次量化，进一步压缩
 --quantization_cache_dir ./quant_cache  # 缓存量化结果，加速后续模型加载
 ```
+

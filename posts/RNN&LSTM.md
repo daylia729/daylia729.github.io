@@ -60,8 +60,7 @@ f(x) = \sum_{i=1}^{n} \text{softmax}\left( -\frac{1}{2} \left( (x - x_i) w \righ
 $$
 * 相对于之前的非参注意力池化层引入了w，w是可以学习的（使用高斯分布）
 
-### Transformer
 
-https://arxiv.org/abs/1706.03762
 
-<img src="/public/Transformer.jpg">
+
+
