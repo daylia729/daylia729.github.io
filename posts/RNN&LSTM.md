@@ -1,5 +1,5 @@
 ---
-title: RNN&LSTM&Attention&Transformer
+title: RNN&LSTM
 description: NLP
 date: 2025-09-01
 tags:
