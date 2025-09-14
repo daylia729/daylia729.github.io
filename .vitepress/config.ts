@@ -6,7 +6,7 @@ import mathjax3 from "markdown-it-mathjax3";
 async function config() {
   return {
     lang: "en-US",
-    title: "晓蒙的知识库",
+    title: "Xiao Li",
     description: "Home of Clark Cui",
     head: [
       [
