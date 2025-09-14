@@ -29,6 +29,7 @@ https://tiktokenizer.vercel.app/?model=gpt-4o
 #### Byte Pair Encoding(BPE)
 * Basic idea:train the tokenizer on raw text to automatocally detemine the vocabulary.
 * Common sequences of characters are represented by a single token,rare sequences are represented by many tokens.
+
 https://huggingface.co/learn/llm-course/zh-CN/chapter6/5
 https://github.com/rsennrich/subword-nmt
 
