@@ -43,6 +43,7 @@ print(e.shape)
 
 # 改变d的形状为[1,1,9,9]
 d = d.unsqueeze(0).unsqueeze(0)
+# reduce对张量的一个或者多个维度进行聚合
 f = reduce(d, 'b c (h h2) (w w2) -> b h w c', 'mean', h2=3, w2=3)
 print(f.shape)
 # einops可以直接写在pytorch神经网络模型的layer里
@@ -67,3 +68,35 @@ torch.Size([3, 1, 3, 9])
 torch.Size([3, 9, 9])
 torch.Size([1, 3, 3, 1])
 ```
+
+### 浮点数计算成本
+#### FLOP(Floating-point operation)
+* 任何涉及浮点数的运算
+#### FLOPs
+* 浮点操作的次数
+#### FLOP/S or FLOPS
+* 每秒浮点操作次数
+
+### Linear Model
+```
+x = torch.ones(B,D)
+w = torch.randn(D,K)
+Y = torch.matmul(x,w)
+```
+* 矩阵乘法的浮点计算次数近似为2*B*D*K
+* 在深度学习中，如果你的模型足够大，我们主要关注模型的矩阵乘法，因为矩阵乘法是最耗时的
+
+### MFU(Model FLOPs utilization)
+mfu = actual_flop_per_sec / promised_flop_per_sec
+* MFU of >= 0.5 is quite good
+
+### gradient
+* 参考之前的自动求导部分
+
+### 参数初始化
+* 鱼书之前看过初始化的一些技巧
+
+### 数据加载
+
+### 优化器 optimizer
+* 之前鱼书里也有对不同优化器的介绍
