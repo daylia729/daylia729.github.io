@@ -83,7 +83,7 @@ x = torch.ones(B,D)
 w = torch.randn(D,K)
 Y = torch.matmul(x,w)
 ```
-* 矩阵乘法的浮点计算次数近似为2*B*D*K
+* 矩阵乘法的浮点计算次数近似为 2*B*D*K
 * 在深度学习中，如果你的模型足够大，我们主要关注模型的矩阵乘法，因为矩阵乘法是最耗时的
 
 ### MFU(Model FLOPs utilization)
