@@ -86,3 +86,32 @@ confidence就是预测的bounding box和ground truth box的IOU值。 每一个�
 <img src="/public/yolov1nms.png">
 
 * NMS:选择权概率最高的为输出，与该输出重叠的去掉，不断重复这一过程
+
+### YOLO v8
+论文：https://arxiv.org/pdf/2408.15857
+
+<img src="/public/yolov81.png">
+
+* Backbone骨干网络：提取图像的多尺度多层次特征；
+   * 低层特征：分辨率高，感受野小，定位比较精确，但语义弱（难以区分类别）
+   * 高层特征：分辨率低，感受野大，有很强的类别判别能力，但由于分辨率低，定位能力差
+* Neck：融合特征，将深层的语义信息与浅层的空间信息融合起来
+    * FPN(Feature Pyramid Network) 自上向下把高层的语义信息传递给低层，每一层都具有语义信息，又具有分辨率，解决了传统检测对小目标不敏感的问题，提升了多尺度目标检测效果
+    * PAN(Path Aggregation Network) 在FPN的基础上增加了自下向上的路径，把低层的细粒度信息传递到高层，使高层具有更强的定位能力，使得语义和位置信息双向流动
+* Head：输出检测结果，包括边界框x,y,w,h、目标置信度、类别分布概率
+<img src="/public/yolov82.png"> 
+
+| Model   | Anchor                    | Input                                                                 | Backbone                                                                                                                               | Neck                          | Predict/Train                                                                                                                                                    |
+|---------|---------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| YOLOv1  | 锚框（7*7grids，2 anchors） | resize(448×448×3)：<br>训练是224 * 224，测试是448*448；                   | GoogLeNet（24*Conv+2*FC+reshape；<br>Dropout防止过拟合；<br>最后一层使用线性激活函数，其余层都使用ReLU激活函数）；                          | 无                            | IOU_Loss、nms；<br>一个网格只预测了2个框，并且都属于同一类；<br>全连接层直接预测bbox的坐标值；                                                                       |
+| YOLOv2  | 锚框（13*13grids，5 anchors：<br>通过k-means选择先验框） | resize（416* 416*3）：<br>416/32=13，最后得到的是奇数值有实际的中心点；<br>在原训练的基础上又加上了（10个epoch）的448x448高分辨率样本进行微调； | Darknet-19（19*Conv+5*MaxPool+AvgPool+Softmax；<br>没有FC层，每一个卷积后都使用BN和ReLU防止过拟合（舍弃dropout）；<br>提出passthrough层：把高分辨率特征拆分叠加大到低分辨率特征中，进行特征融合，有利于小目标的检测）； | 无                            | IOU_Loss、nms；<br>一个网络预测5个框，每个框都可以属于不同类；<br>预测相对于anchor box的偏移量；<br>多尺度训练（训练模型经过一定迭代后，输入图像尺寸变换）、联合训练机制； |
+| YOLOv3  | 锚框（13* 13grids，9 anchors：<br>三种尺度*三种宽高比） | resize（608* 608*3）                                                    | Darknet-53（53*Conv，每一个卷积层后都使用BN和Leaky ReLU防止过拟合，残差连接）；                                                              | FPN（多尺度检测，特征融合）      | IOU_Loss、nms；<br>多标签预测（softmax分类函数更改为logistic分类器）；                                                                                              |
+| YOLOv4  | 锚框                      | resize（608* 608*3）、<br>Mosaic数据增强、<br>SAT自对抗训练数据增强         | CSPDarknet53（CSP模块：更丰富的梯度组合，同时减少计算量、<br>跨小批量标准化（CmBN）和Mish激活、<br>DropBlock正则化（随机删除一大块神经元）、<br>采用改进SAM注意力机制：在空间位置上添加权重）； | SPP（通过最大池化将不同尺寸的输入图像变得尺寸一致）、<br>PANnet（修改PAN，add替换成concat） | CIOU_Loss、DIOU_nms；<br>自对抗训练SAT：在原始图像的基础上，添加噪音并设置权重阈值让神经网络对自身进行对抗性攻击训练；<br>类标签平滑：将绝对化标签进行平滑（如：[0,1]→[0.05,0.95]），即分类结果具有一定的模糊化，使得网络的抗过拟合能力增强； |
+| YOLOv5  | 锚框                      | resize（608* 608*3）、<br>Mosaic数据增强、<br>自适应锚框计算、<br>自适应图片缩放 | CSPDarknet53（CSP模块，每一个卷积层后都使用BN和Leaky ReLU防止过拟合，Focus模块）；                                                           | SPP、PAN                       | GIOU_Loss、DIOU_Nms；<br>跨网格匹配（当前网格的上、下、左、右的四个网格中找到离目标中心点最近的两个网格，再加上当前网格共三个网格进行匹配）；                                 |
+| YOLOX   | 无锚框                    | resize（608* 608*3）                                                    | Darknet-53                                                                                                                             | SPP、FPN                       | CIOU_Loss、DIOU_Nms、<br>Decoupled Head、<br>SimOTA标签分配策略；                                                                                                   |
+| YOLOv6  | 无锚框                    | resize（640* 640*3）                                                    | EfficientRep Backbone（Rep算子）                                                                                                       | SPP、Rep-PAN Neck              | SIOU_Loss、DIOU_Nms、<br>Efficient Decoupled Head、<br>SimOTA标签分配策略；                                                                                         |
+| YOLOv7  | 锚框                      | resize（640* 640*3）                                                    | Darknet-53（CSP模块替换了ELAN模块；<br>下采样变成MP2层；<br>每一个卷积层后都使用BN和SiLU防止过拟合）；                                           | SPP、PAN                       | CIOU_Loss、DIOU_Nms、<br>SimOTA标签分配策略、<br>带辅助头的训练（通过增加训练成本，提升精度，同时不影响推理的时间）；                                                       |
+| YOLOv8  | 无锚框                    | resize（640* 640*3）                                                    | Darknet-53（C3模块换成了C2F模块）                                                                                                      | SPP、PAN                       | CIOU_Loss、DFL_Loss、<br>DIOU_Nms、<br>TAL标签分配策略、<br>Decoupled Head；                                                                                         |
+
+
+<img src="/public/yolov11.png">
