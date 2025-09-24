@@ -115,3 +115,7 @@ confidence就是预测的bounding box和ground truth box的IOU值。 每一个�
 
 
 <img src="/public/yolov11.png">
+
+##### 相对于v8
+1.C2f -> C3k2 更轻量
+2.Backbone增加了C2PSA模块 增强空间注意力，帮助模型聚焦重要或难以检测的区域
