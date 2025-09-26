@@ -1,5 +1,5 @@
 ---
-title: 大模型微调。。。
+title: 大模型微调
 description: 大模型
 date: 2025-09-03
 tags:
