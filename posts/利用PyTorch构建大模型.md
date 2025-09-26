@@ -3,7 +3,7 @@ title: 利用PyTorch构建大模型
 description: 利用PyTorch构建大模型
 date: 2025-09-14
 tags:
-  - 大模型
+  - cs336
 ---
 
 ### Tensor
