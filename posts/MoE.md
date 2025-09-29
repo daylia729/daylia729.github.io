@@ -6,7 +6,7 @@ tags:
   - cs336
 ---
 
-### Mixture if experts
+### Mixture of experts
 * Replace big feedforward with (many) small feedforward networks and a selector layer.
 ### Why are MoEs gettig popular?
 * Same FLOP,more param does better
